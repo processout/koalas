@@ -49,7 +49,7 @@ def from_pandas(pdf):
 
 
 def read_csv(path, header='infer', names=None, usecols=None,
-             mangle_dupe_cols=True, parse_dates=False, comment=None):
+             mangle_dupe_cols=True, parse_dates=False, comment=None, sep=","):
     """Read CSV (comma-separated) file into DataFrame.
 
     :param path: The path string storing the CSV file to be read.
@@ -86,6 +86,9 @@ def read_csv(path, header='infer', names=None, usecols=None,
         usecols = list(usecols)
     if usecols is None or callable(usecols) or len(usecols) > 0:
         reader = default_session().read.option("inferSchema", "true")
+
+        if sep is not None:
+            reader.option("sep", sep)
 
         if header == 'infer':
             header = 0 if names is None else None
